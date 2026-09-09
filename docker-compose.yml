@@ -1,0 +1,7 @@
+services:
+  nikon-phos:
+    build: .
+    container_name: nikon-phos-demo
+    ports:
+      - "4321:3000"
+    restart: unless-stopped
