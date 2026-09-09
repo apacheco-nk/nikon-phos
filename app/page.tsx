@@ -20,7 +20,8 @@ export default function Home(){
     setSubmitting(true);setFormError('');
     try{
       const response=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...lead,consentimiento:true,website:String(formData.get('website')||'')})});
-      const data=await response.json();
+      const contentType=response.headers.get('content-type')||'';
+      const data=contentType.includes('application/json')?await response.json().catch(()=>({})):{};
       if(!response.ok)throw new Error(data.error||'No pudimos completar el registro.');
       localStorage.setItem(leadKey,JSON.stringify(lead));setRegistered(true);
       setTimeout(()=>document.querySelector('#galerias')?.scrollIntoView({behavior:'smooth'}),50);
